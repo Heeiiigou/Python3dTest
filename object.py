@@ -2,6 +2,7 @@ import numpy as np
 from misc import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
 class object:
     """Object Model"""
     def render(self):
@@ -23,28 +24,22 @@ class object:
        return self.rendered
     rendered = True
     pos = (0,0,0)
-    vertices = np.array([0])
+    vertices = np.array([])
+
+    def scale(self, s=1):
+        i = 0
+        for vertex in self.vertices:
+            self.vertices[i] = np.array([self.vertices[i][0]*s,self.vertices[i][1]*s,self.vertices[i][2]*s,1])
+            i+=1
 
 class Cube(object):
     def render(self):
         glBegin(GL_LINES)
+        glColor3fv((255,0,0))
         for edge in edges:
             for vertex in edge:
                 glVertex4fv(self.vertices[vertex])
         glEnd()
     def __init__(self):
-        self.vertices = verticies
+        self.vertices = np.array(verticies)
     pos = (0,0,0)
-
-class Ground(object):
-    def __init__(self):
-        self.vertices=ground_vertices
-    def render(self):
-        glBegin(GL_QUADS)
-
-        x = 0
-        for vertex in self.vertices:
-            x+=1
-            glColor3fv(FLOOR_COLOR)
-            glVertex4fv(vertex)
-        glEnd()
